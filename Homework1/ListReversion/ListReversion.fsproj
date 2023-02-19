@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <Compile Include="ListReversion.fs" />
   </ItemGroup>
 
 </Project>
