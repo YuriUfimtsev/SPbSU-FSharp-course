@@ -8,4 +8,5 @@ let factorial number =
         else loop (i - 1) (i * acc)
     loop number 1
 
-printfn "Result: %d" (factorial number)
+if number >= 0 then printfn "Result: %d" (factorial number)
+else printfn "Not defined"
