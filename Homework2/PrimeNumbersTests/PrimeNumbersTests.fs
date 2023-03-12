@@ -2,7 +2,7 @@ module PrimeNumbersTests
 open System
 open NUnit.Framework
 open FsUnit
-open PrimeNumbers
+open PrimeNumbers.PrimeNumbers
 
 let generateRandom () = 
     let random = Random()
