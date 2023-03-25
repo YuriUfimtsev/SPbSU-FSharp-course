@@ -7,7 +7,7 @@ module LambdaInterpreter =
     | LambdaAbstraction of char * Term
 
     let getNextVariable (character : char) =
-        char ( (int (character)) + 1)
+        char (int (character) + 1)
 
     let getRightVariableName previousVariable newTerm =
         let isVariableContainedInCollectionAsBound variable =
@@ -37,7 +37,7 @@ module LambdaInterpreter =
         | Variable a, _ when a <> previousVariable -> Variable a
         | Application (firstTerm, secondTerm), term ->
             Application(performSubstitution previousVariable firstTerm term, performSubstitution previousVariable secondTerm term)
-        | LambdaAbstraction (lambdaVariable, body), Variable var when lambdaVariable = var -> LambdaAbstraction (lambdaVariable, body)
+        | LambdaAbstraction (lambdaVariable, body), Variable var when previousVariable = lambdaVariable -> LambdaAbstraction (lambdaVariable, body)
         | LambdaAbstraction (lambdaVariable, body), term  ->
             let rightVariableName = getRightVariableName lambdaVariable term
             if rightVariableName <> lambdaVariable
@@ -50,7 +50,9 @@ module LambdaInterpreter =
         let rec recursiveBetaConversion expression isApplicationWithLambdaAbstractionFound =
             match expression, isApplicationWithLambdaAbstractionFound with
             | Variable variable, isFound -> Variable variable, isFound
-            | LambdaAbstraction (variable, body), isFound -> LambdaAbstraction (variable, body), isFound
+            | LambdaAbstraction (variable, body), isFound ->
+                let newBody, newIsFound = recursiveBetaConversion body isFound
+                LambdaAbstraction (variable, newBody), newIsFound
             | Application (LambdaAbstraction (variable, body), term), isFound -> performSubstitution variable body term, true
             | Application (firstTerm, secondTerm), isFound ->
                 let newFirstTerm, isInFirstTermFound = recursiveBetaConversion firstTerm isFound
