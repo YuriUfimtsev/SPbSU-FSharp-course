@@ -9,17 +9,21 @@ module BracketsBalance =
     let checkBracketsBalance string =
         let stack = []
         let rec loop i isCorrect stack =
-            if not isCorrect then false
-            elif i = String.length string - 1 then isCorrect
+            if not isCorrect then false, stack
+            elif i >= String.length string then isCorrect, stack
             else
                 let symbol = string[i]
                 if Set.contains symbol openingBrackets then
                     loop (i + 1) isCorrect <| Stack.push stack symbol
                 elif Map.containsKey symbol closingBrackets then
                     if Stack.isEmpty stack || Option.defaultValue ' ' (Stack.top stack) <> Map.find symbol closingBrackets
-                    then false
+                    then false, stack
                     else
                         loop (i + 1) isCorrect <| Stack.pop stack
                 else
                     loop (i + 1) isCorrect stack
-        if not (Stack.isEmpty stack) then false else true
+        let result, stack = loop 0 true stack
+        if result then
+            if Stack.isEmpty stack then true else false
+        else
+            result
