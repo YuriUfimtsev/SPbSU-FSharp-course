@@ -1,9 +1,8 @@
 ﻿namespace BracketsBalance
 
 module Stack =
-    let push stack element = 
-        element :: stack
-    
+    let push stack element = element :: stack
+
     let pop stack =
         match stack with
         | head :: tail -> tail
