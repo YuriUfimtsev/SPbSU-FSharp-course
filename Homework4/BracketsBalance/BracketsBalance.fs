@@ -12,11 +12,11 @@ module BracketsBalance =
             if not isCorrect then false, stack
             elif i >= String.length string then isCorrect, stack
             else
-                let symbol = string[i]
-                if Set.contains symbol openingBrackets then
-                    loop (i + 1) isCorrect <| Stack.push stack symbol
-                elif Map.containsKey symbol closingBrackets then
-                    if Stack.isEmpty stack || Option.defaultValue ' ' (Stack.top stack) <> Map.find symbol closingBrackets
+                let character = string[i]
+                if Set.contains character openingBrackets then
+                    loop (i + 1) isCorrect <| Stack.push stack character
+                elif Map.containsKey character closingBrackets then
+                    if Stack.isEmpty stack || Option.defaultValue ' ' (Stack.top stack) <> Map.find character closingBrackets
                     then false, stack
                     else
                         loop (i + 1) isCorrect <| Stack.pop stack

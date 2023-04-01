@@ -5,46 +5,46 @@ open NUnit.Framework
 open FsUnit
 
 [<Test>]
-let ``Ñheck the correctness of the simple brackets sequence, should return true`` () =
-    let simpleCorrectBracketsSequence () =  "()"
-    checkBracketsBalance (simpleCorrectBracketsSequence ()) |> should be True
+let ``Check the correctness of the simple balanced brackets sequence should return true`` () =
+    let sequence () =  "()"
+    checkBracketsBalance (sequence ()) |> should be True
 
 [<Test>]
-let ``Ñheck the correctness of the brackets sequence, should return true`` () =
-    let correctBracketsSequence () = "([{}])"
-    checkBracketsBalance (correctBracketsSequence ()) |> should be True
+let ``Check the correctness of the balanced sequence with different types of brackets should return true`` () =
+    let sequence () = "([{}])"
+    checkBracketsBalance (sequence ()) |> should be True
 
 [<Test>]
-let ``Ñheck the correctness of the brackets sequence among other symbols, should return true`` () =
-    let correctBracketsSequenceAmongOtherSymbols () = "fjhgh(kjhkjh[bjhg]gghjg{}{}jkhjk)"
-    checkBracketsBalance (correctBracketsSequenceAmongOtherSymbols ()) |> should be True
+let ``Check the correctness of the balanced brackets sequence with other characters should return true`` () =
+    let sequence () = "fjhgh(kjhkjh[bjhg]gghjg{}{}jkhjk)"
+    checkBracketsBalance (sequence ()) |> should be True
 
 [<Test>]
-let ``Ñheck the correctness of the string without brackets, should return true`` () =
-    let stringWithoutBrackets () = "hhgcxzgfsghyjghoi;lkjhbvtyrjgsfxctyujhguik"
-    checkBracketsBalance (stringWithoutBrackets ()) |> should be True
+let ``Check the correctness of the sequence without brackets should return true`` () =
+    let sequence () = "hhgcxzgfsghyjghoi;lkjhbvtyrjgsfxctyujhguik"
+    checkBracketsBalance (sequence ()) |> should be True
 
 [<Test>]
-let ``Ñheck the correctness of the empty string, should return true`` () =
-    let emptyString () = ""
-    checkBracketsBalance (emptyString ()) |> should be True
+let ``Check the correctness of the empty sequence should return true`` () =
+    let sequence () = ""
+    checkBracketsBalance (sequence ()) |> should be True
 
 [<Test>]
-let ``Ñheck the correctness of the simple brackets sequence with closing bracket, should return false`` () =
-    let incorrectBracketsSequenceWithClosingBracket () = ")"
-    checkBracketsBalance (incorrectBracketsSequenceWithClosingBracket ()) |> should be False
+let ``Check the correctness of the sequence with the closing bracket should return false`` () =
+    let sequence () = ")"
+    checkBracketsBalance (sequence ()) |> should be False
 
 [<Test>]
-let ``Ñheck the correctness of the simple brackets sequence with opening bracket, should return false`` () =
-    let incorrectBracketsSequenceWithOpeningBracket () = "("
-    checkBracketsBalance (incorrectBracketsSequenceWithOpeningBracket ()) |> should be False
+let ``Check the correctness of the sequence with the opening bracket should return false`` () =
+    let sequence () = "("
+    checkBracketsBalance (sequence ()) |> should be False
 
 [<Test>]
-let ``Ñheck the correctness of the brackets sequence, should return false`` () =
-    let incorrectBracketsSequence () = "()()([{]})"
-    checkBracketsBalance (incorrectBracketsSequence ()) |> should be False
+let ``Check the correctness of the unbalanced brackets sequence should return false`` () =
+    let sequence () = "()()([{]})"
+    checkBracketsBalance (sequence ()) |> should be False
 
 [<Test>]
-let ``Ñheck the correctness of the brackets sequence among other symbols, should return false`` () =
-    let incorrectBracketsSequenceAmongOtherSymbols () = "fjhgh(kjhkjh[bjhg]gghjg{}{)jkhjk)"
-    checkBracketsBalance (incorrectBracketsSequenceAmongOtherSymbols ()) |> should be False
+let ``Check the correctness of the unbalanced brackets sequence with other characters should return false`` () =
+    let sequence () = "fjhgh(kjhkjh[bjhg]gghjg{}{)jkhjk)"
+    checkBracketsBalance (sequence ()) |> should be False

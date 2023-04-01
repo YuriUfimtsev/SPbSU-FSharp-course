@@ -9,13 +9,13 @@ let notEmplyIntStack () = [1;5]
 let notEmplyCharStack () = ['('; '}']
 
 [<Test>]
-let ``isEmpty function test`` () =
+let ``isEmpty test`` () =
     isEmpty (emptyStack ()) |> should be True
     isEmpty (notEmplyIntStack ()) |> should be False
     isEmpty (notEmplyCharStack ()) |> should be False
 
 [<Test>]
-let ``Push function test`` () =
+let ``Push test`` () =
     push (emptyStack ()) 8 |> should equal (8 :: emptyStack ())
     push (notEmplyIntStack ()) 15 |> should equal (15 :: notEmplyIntStack ())
     push (notEmplyCharStack ()) '[' |> should equal ('[' :: notEmplyCharStack ())
