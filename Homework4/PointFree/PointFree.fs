@@ -1,4 +1,4 @@
-module PointFreeTests
+module PointFree
 
 open NUnit.Framework
 open FsCheck

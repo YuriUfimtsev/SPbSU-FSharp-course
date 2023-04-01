@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="PointFreeTests.fs" />
+    <Compile Include="PointFree.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
