@@ -4,7 +4,9 @@ open System.IO
 
 type Person = { Name : string; Phone : string }
 
-let addRecord person database = person :: database
+let addRecord person database =
+    let isAdditionCorrect = List.exists (fun x -> x.Phone = person.Phone) database |> not
+    if isAdditionCorrect then person :: database else database
 
 let findName phone database =
     let person = List.tryFind (fun x -> phone = x.Phone) database

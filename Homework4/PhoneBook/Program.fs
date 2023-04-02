@@ -39,10 +39,8 @@ let printPhoneNumbers phones =
 
 let rec loop database =
     printfn "Enter the next command:"
-
     try
         let command = Console.ReadLine() |> int
-
         match command with
         | 0 -> ()
         | 1 ->

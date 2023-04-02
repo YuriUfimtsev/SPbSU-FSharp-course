@@ -10,6 +10,15 @@
     <ItemGroup>
         <Compile Include="PhoneBookTests.fs" />
         <Compile Include="Program.fs" />
+        <Content Include="GetTestDatabase.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="EmptyFile.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="GoldDatabase.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
