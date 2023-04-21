@@ -3,11 +3,13 @@
 module Stack =
     type Stack() =
         let mutable stack = []
+        let lockObject = obj
 
         member this.Push element =
-            stack <- (element :: stack)
+            lock lockObject (fun () -> stack <- (element :: stack))
 
         member this.TryPop =
+            lock lockObject (fun () ->
             match stack with
             | head :: tail -> Some(head)
-            | [] -> None
+            | [] -> None)
