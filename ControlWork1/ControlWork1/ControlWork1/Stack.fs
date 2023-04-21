@@ -10,6 +10,6 @@ module Stack =
 
         member this.TryPop =
             lock lockObject (fun () ->
-            match stack with
-            | head :: tail -> Some(head)
-            | [] -> None)
+                match stack with
+                | head :: tail -> Some(head)
+                | [] -> None)
