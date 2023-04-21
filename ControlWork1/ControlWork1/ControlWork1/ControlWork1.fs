@@ -1,7 +1,5 @@
 ﻿namespace ControlWork1
 
-open System
-
 module ControlWork1 =
     let supermap mappingFunc ls =
         let rec loop startedList newList =
