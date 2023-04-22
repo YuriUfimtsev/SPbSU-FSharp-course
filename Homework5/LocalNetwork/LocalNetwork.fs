@@ -10,6 +10,8 @@ module LocalNetwork =
 
         let supportedOperatingSystems : Map<string, float> = supportedOperatingSystems
 
+        let mutable isStateFinal = false
+
         do
             let initialize (path : string) =
                 use streamReader = new StreamReader(path)
@@ -72,8 +74,33 @@ module LocalNetwork =
 
         member val GetOperatingSystems = supportedOperatingSystems
 
-        member _.SpreadVirus =
-            let infectedComputers =
-                List.filter (fun (computer : Computer) -> computer.IsInfected) computers
+        /// returns infected computers.
+        member _.State () =
+            List.filter (fun (computer : Computer) -> computer.IsInfected) computers
 
-            List.iter (fun (computer : Computer) -> computer.SpreadVirus()) infectedComputers
+        member _.IsStateFinal = isStateFinal
+
+        /// returns true if the number of infected computers has reached the maximum possible. Otherwise false
+        member _.SpreadVirus =
+            if isStateFinal then
+                isStateFinal
+            else
+                let infectedComputers =
+                    List.filter (fun (computer : Computer) -> computer.IsInfected) computers
+
+                if List.length infectedComputers = List.length computers then
+                    isStateFinal <- true
+                    isStateFinal
+                else
+                    let mutable result = true
+
+                    List.iter
+                        (fun (computer : Computer) ->
+                            if not (computer.SpreadVirus()) then
+                                result <- false)
+                        infectedComputers
+
+                    if result then
+                        isStateFinal <- true
+
+                    result
