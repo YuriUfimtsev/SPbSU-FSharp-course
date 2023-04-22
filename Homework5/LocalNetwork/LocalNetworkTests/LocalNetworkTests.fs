@@ -3,6 +3,7 @@ module LocalNetworkTests
 open LocalNetwork.LocalNetwork
 open NUnit.Framework
 open FsUnit
+open Foq
 open LocalNetwork
 open Computer
 
