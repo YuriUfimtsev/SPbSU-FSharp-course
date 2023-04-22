@@ -36,7 +36,6 @@ module LocalNetwork =
                         newLine <- source.ReadLine()
 
                     computers <- List.rev computers
-                    newLine <- source.ReadLine()
 
                 initializeComputers streamReader
                 let computersCount = List.length computers
@@ -53,12 +52,27 @@ module LocalNetwork =
                             raise (invalidArg "Adjacency matrix" "Incorrect adjacency matrix")
 
                         for j = 0 to computersCount - 1 do
-                            Array2D.set adjacencyMatrix (array[j] |> int) i j
+                            Array2D.set adjacencyMatrix i j (array[j] |> int)
 
                         i <- i + 1
                         newLine <- source.ReadLine()
 
                 initializeAdjacencyMatrix streamReader
+
+                let getInfectedComputers (source : StreamReader) =
+                    let mutable newLine = source.ReadLine()
+                    let mutable i = 0
+
+                    while newLine <> null do
+                        let computerAddress = newLine |> int
+                        let infectedComputer =
+                            List.find (fun (computer : Computer) -> computer.MACAddress = computerAddress) computers
+
+                        infectedComputer.IsInfected <- true
+                        i <- i + 1
+                        newLine <- source.ReadLine()
+
+                getInfectedComputers streamReader
 
                 let addConnectedComputers (computers : Computer list) (adjacencyMatrix : int[,]) =
                     let computersArray = List.toArray computers
@@ -81,7 +95,7 @@ module LocalNetwork =
         member _.IsStateFinal = isStateFinal
 
         /// returns true if the number of infected computers has reached the maximum possible. Otherwise false
-        member _.SpreadVirus =
+        member _.SpreadVirus () =
             if isStateFinal then
                 isStateFinal
             else

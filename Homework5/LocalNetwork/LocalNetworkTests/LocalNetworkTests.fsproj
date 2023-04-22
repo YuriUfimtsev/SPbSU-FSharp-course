@@ -10,6 +10,9 @@
     <ItemGroup>
         <Compile Include="LocalNetworkTests.fs" />
         <Compile Include="Program.fs" />
+        <Content Include="TestNetwork.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>

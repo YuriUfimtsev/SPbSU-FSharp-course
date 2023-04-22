@@ -37,9 +37,9 @@ module Computer =
 
                 List.iter
                     (fun (computer : Computer) ->
-                        (computer.ResistVirus()
-                         if not (computer.IsInfected) && not (computer.InfectionProbability.Equals(0)) then
-                             result <- false))
+                        (if not (computer.IsInfected) && not (computer.InfectionProbability.Equals(0)) then
+                             result <- false
+                             computer.ResistVirus()))
                     connectedComputers
 
                 result
