@@ -1,10 +1,11 @@
 ﻿namespace Lazy
 
-type MultiThreadedLazy<'a> (supplier : unit -> 'a) =
-    let mutable privateSupplier: Option<unit -> 'a> = Some supplier
+type MultiThreadedLazy<'a>(supplier : unit -> 'a) =
+    let mutable privateSupplier : Option<unit -> 'a> = Some supplier
 
     [<VolatileField>]
-    let mutable result: Option<'a> = None
+    let mutable result : Option<'a> = None
+
     let synchronizationObject = obj
 
     interface ILazy<'a> with

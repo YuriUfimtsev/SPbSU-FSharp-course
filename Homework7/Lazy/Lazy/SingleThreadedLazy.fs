@@ -1,8 +1,8 @@
 ﻿namespace Lazy
 
-type SingleThreadedLazy<'a> (supplier : unit -> 'a) =
-    let mutable privateSupplier: Option<unit -> 'a> = Some supplier
-    let mutable result: Option<'a> = None
+type SingleThreadedLazy<'a>(supplier : unit -> 'a) =
+    let mutable privateSupplier : Option<unit -> 'a> = Some supplier
+    let mutable result : Option<'a> = None
 
     interface ILazy<'a> with
         override _.Get () =
