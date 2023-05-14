@@ -1,4 +1,4 @@
-module LazyTests.SingleThreadedLazyTests
+module LazyTests.SingleThreadedTests
 
 open NUnit.Framework
 open FsUnit

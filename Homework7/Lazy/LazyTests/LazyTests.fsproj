@@ -9,7 +9,8 @@
 
     <ItemGroup>
         <Compile Include="TestFunctions.fs" />
-        <Compile Include="SingleThreadedLazyTests.fs" />
+        <Compile Include="SingleThreadedTests.fs" />
+        <Compile Include="MultiThreadedTests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
