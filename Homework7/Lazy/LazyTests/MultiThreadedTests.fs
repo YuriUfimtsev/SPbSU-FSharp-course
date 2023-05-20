@@ -6,39 +6,62 @@ open Lazy
 open System.Threading
 open Microsoft.FSharp.Collections
 
-let multiThreadedTestFunc isLockFreeImplementation =
+[<Test>]
+let MultiThreadedTest () =
     let testIterationStarted = new ManualResetEvent(false)
 
     for i = 0 to 5 do
         testIterationStarted.Reset() |> ignore
         let mutable counter = 0
 
-        let supplier =
-            fun () ->
-                counter <- counter + 1
-                counter
+        let supplier () =
+            testIterationStarted.WaitOne() |> ignore
+            Interlocked.Increment &counter |> ignore
+            obj()
 
-        let lazyObject : ILazy<int> =
-            if isLockFreeImplementation then
-                LockFreeLazy<int>(supplier)
-            else
-                MultiThreadedLazy<int>(supplier)
+        let lazyObject : ILazy<obj> = BlockingLazy<obj>(supplier)
 
         let asyncTask =
             async {
-                testIterationStarted.WaitOne() |> ignore
-                lazyObject.Get() |> should equal 1
+                return lazyObject.Get()
             }
 
         let tasksArray =
-            Seq.init 10 (fun (num) -> asyncTask)
-            |> Seq.map (fun (asyncElement) -> Async.StartAsTask asyncElement)
+            Seq.init 10 (fun _ -> asyncTask)
+                |> Seq.map (fun (asyncElement) -> Async.StartAsTask asyncElement)
 
         testIterationStarted.Set() |> ignore
-        tasksArray |> Seq.map (fun task -> task.Wait()) |> ignore
+        let taskResults = tasksArray |> Seq.map (fun task -> task.Result)
+        let goldenObj = Seq.item 0 taskResults
+        taskResults |> Seq.forall (fun object -> obj.Equals (object, goldenObj)) |> should be True
+        counter |> should equal 1
 
 [<Test>]
-let MultiThreadedTest () = multiThreadedTestFunc false
+let LockFreeMultiThreadedTest () =
+    let testIterationStarted = new ManualResetEvent(false)
 
-[<Test>]
-let LockFreeMultiThreadedTest () = multiThreadedTestFunc true
+    for i = 0 to 5 do
+        testIterationStarted.Reset() |> ignore
+        let mutable counter = 0
+
+        let supplier () =
+            testIterationStarted.WaitOne() |> ignore
+            Interlocked.Increment &counter |> ignore
+            obj()
+
+        let lazyObject : ILazy<obj> = LockFreeLazy<obj>(supplier)
+
+        let asyncTask =
+            async {
+                return lazyObject.Get()
+            }
+
+        let tasksArray =
+            Seq.init 10 (fun _ -> asyncTask)
+                |> Seq.map (fun (asyncElement) -> Async.StartAsTask asyncElement)
+
+        testIterationStarted.Set() |> ignore
+        let taskResults = tasksArray |> Seq.map (fun task -> task.Result)
+        let goldenObj = Seq.item 0 taskResults
+        taskResults |> Seq.forall (fun object -> obj.Equals (object, goldenObj)) |> should be True
+        counter |> should equal 1

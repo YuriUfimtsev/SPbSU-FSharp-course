@@ -29,7 +29,7 @@ let GetArrayWithLazyObjects (areValueTypeFunctions : bool) : TestCaseData[] =
 
     while i < (Array.length lazyObjectsArray) do
         lazyObjectsArray[i] <- TestCaseData(SingleThreadedLazy<obj>(functionsArray[j]))
-        lazyObjectsArray[i + 1] <- TestCaseData(MultiThreadedLazy<obj>(functionsArray[j]))
+        lazyObjectsArray[i + 1] <- TestCaseData(BlockingLazy<obj>(functionsArray[j]))
         lazyObjectsArray[i + 2] <- TestCaseData(LockFreeLazy<obj>(functionsArray[j]))
         i <- i + 3
         j <- j + 1

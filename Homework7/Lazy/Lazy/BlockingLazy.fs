@@ -1,6 +1,6 @@
 ﻿namespace Lazy
 
-type MultiThreadedLazy<'a>(supplier : unit -> 'a) =
+type BlockingLazy<'a>(supplier : unit -> 'a) =
     let mutable privateSupplier : Option<unit -> 'a> = Some supplier
 
     [<VolatileField>]
