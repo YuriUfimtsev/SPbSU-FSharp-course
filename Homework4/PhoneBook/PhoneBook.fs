@@ -1,15 +1,16 @@
 ﻿module PhoneBook
 
-open System.IO
-
 type Person = { Name : string; Phone : string }
 
 let addRecord person database =
-    let isAdditionCorrect = List.exists (fun x -> x.Phone = person.Phone) database |> not
+    let isAdditionCorrect =
+        List.exists (fun x -> x.Phone = person.Phone) database |> not
+
     if isAdditionCorrect then person :: database else database
 
 let findName phone database =
     let person = List.tryFind (fun x -> phone = x.Phone) database
+
     match person with
     | Some value -> Some value.Name
     | None -> None
@@ -17,40 +18,45 @@ let findName phone database =
 let findPhones name database =
     database |> List.filter (fun x -> name = x.Name) |> List.map (fun x -> x.Phone)
 
-let saveInFile (path : string) database =
-    use streamWriter = new StreamWriter(path)
+let fillDatabaseFromString (data : string) =
+    let elements = data.Split("\n")
 
-    let rec loop i localDatabase =
-        if i >= List.length database then
-            ()
-        else
-            match localDatabase with
-            | head :: tail ->
-                streamWriter.WriteLine(
-                    String.concat
-                        " "
-                        (seq {
-                            head.Name
-                            head.Phone
-                        })
-                )
-
-                loop (i + 1) tail
-            | [] -> ()
-
-    loop 0 database
-
-let getFromFile (path : string) =
-    use streamReader = new StreamReader(path)
-
-    let rec loop (newLine : string) database =
-        if newLine = null then
+    let rec loop database i =
+        if i >= elements.Length then
             database
         else
-            let array = newLine.Split ' '
-            if Array.length array <> 2 then
-                raise (invalidArg "Name and phone" "More than two parameters were found")
-            let newRecord = { Name = array[0]; Phone = array[1] }
-            loop (streamReader.ReadLine()) (newRecord :: database)
+            let personInfoString = elements[i]
+            let dataArray = personInfoString.Split ' '
 
-    loop (streamReader.ReadLine()) []
+            if Array.length dataArray <> 2 then
+                raise (invalidArg "Name and phone" "More than two parameters were found")
+
+            let newRecord =
+                { Name = dataArray[0]
+                  Phone = dataArray[1] }
+
+            loop (newRecord :: database) (i + 1)
+
+    if elements = [| "" |] then [] else loop [] 0
+
+let writeDatabaseToString database =
+    let rec loop localDatabase resultString =
+        match localDatabase with
+        | [] -> resultString
+        | head :: tail ->
+            loop
+                tail
+                (String.concat
+                    "\n"
+                    (seq {
+                        resultString
+
+                        (String.concat
+                            " "
+                            (seq {
+                                head.Name
+                                head.Phone
+                            }))
+                    }))
+
+    (loop database "").Substring(1)

@@ -1,6 +1,7 @@
 ﻿module Program
 
 open System
+open System.IO
 open PhoneBook
 
 let printInfo =
@@ -12,6 +13,15 @@ let printInfo =
     printfn "4 - fill in the database from the file (enter the path to the file);"
     printfn "5 - save all entries in file (enter the path to the file);"
     printfn "6 - show all database contents;"
+
+let readFromFile (path : string) =
+    use streamReader = new StreamReader(path)
+    streamReader.ReadToEnd() |> fillDatabaseFromString
+
+let saveInFile (path : string) database =
+    use streamWriter = new StreamWriter(path)
+    let resultString = writeDatabaseToString database
+    streamWriter.Write(resultString)
 
 let printDatabase database =
     let rec loop localDatabase =
@@ -39,8 +49,10 @@ let printPhoneNumbers phones =
 
 let rec loop database =
     printfn "Enter the next command:"
+
     try
         let command = Console.ReadLine() |> int
+
         match command with
         | 0 -> ()
         | 1 ->
@@ -51,17 +63,19 @@ let rec loop database =
             let person = { Name = name; Phone = phone }
             addRecord person database |> loop
         | 2 ->
-            (Console.ReadLine() |> findPhones <| database) |> printPhoneNumbers
+            findPhones (Console.ReadLine()) database |> printPhoneNumbers
             loop database
         | 3 ->
-            let name = Console.ReadLine() |> findName <| database
+            let name = findName (Console.ReadLine()) database
+
             match name with
             | Some value -> printfn "Name: %s" value
             | None -> printfn "There is no such record in the database"
+
             loop database
-        | 4 -> Console.ReadLine() |> getFromFile |> loop
+        | 4 -> Console.ReadLine() |> readFromFile |> loop
         | 5 ->
-            Console.ReadLine() |> saveInFile <| database
+            saveInFile (Console.ReadLine()) database
             loop database
         | 6 ->
             printDatabase database
