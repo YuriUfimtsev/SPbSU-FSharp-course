@@ -6,7 +6,7 @@ type BlockingLazy<'a>(supplier : unit -> 'a) =
     [<VolatileField>]
     let mutable result : Option<'a> = None
 
-    let synchronizationObject = obj
+    let synchronizationObject = obj ()
 
     interface ILazy<'a> with
         override _.Get () =
