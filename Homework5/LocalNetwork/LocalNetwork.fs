@@ -3,9 +3,11 @@
 open System
 open System.IO
 open Computer
+open Microsoft.FSharp.Collections
+open FSharp.Core
 
 module LocalNetwork =
-    type Network(pathToFile : string, supportedOperatingSystems : Map<string, float>) =
+    type Network(supportedOperatingSystems : Map<string, float>, computers : Computer list, adjacencyMatrix : int [,], infectedComputer : int) =
         let mutable computers : Computer list = []
 
         let supportedOperatingSystems : Map<string, float> = supportedOperatingSystems
