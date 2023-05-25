@@ -7,17 +7,28 @@ open EvenNumbers.CountEvenNumbers
 
 [<Test>]
 let ``Based on map count of even numbers in list from 1 to 10, should return 5`` () =
-    let ls = [1; 2; 3; 4; 5; 6; 7; 8; 9; 10]
+    let ls = [ 1; 2; 3; 4; 5; 6; 7; 8; 9; 10 ]
     CountEvenNumbersWithMap ls |> should equal 5
 
 [<Test>]
-let ``Check based on map and filter counting even numbers functions equality``() =
-    let areMapAndFilterCountingEvenNumbersFunctionsEqual (ls:list<int>) =
+let ``Based on map count of even numbers in empty list, should return 0`` () =
+    CountEvenNumbersWithMap [] |> should equal 0
+
+[<Test>]
+let ``Based on map count of even numbers in list with negative numbers from -10 to -1, should return 5`` () =
+    let ls = [ -1; -2; -3; -4; -5; -6; -7; -8; -9; -10 ]
+    CountEvenNumbersWithMap ls |> should equal 5
+
+[<Test>]
+let ``Check based on map and filter counting even numbers functions equality`` () =
+    let areMapAndFilterCountingEvenNumbersFunctionsEqual (ls : list<int>) =
         CountEvenNumbersWithMap ls = CountEvenNumbersWithFilter ls
+
     Check.QuickThrowOnFailure areMapAndFilterCountingEvenNumbersFunctionsEqual
 
 [<Test>]
-let ``Check based on filter and fold counting even numbers functions equality``() =
-    let areFilterAndFoldCountingEvenNumbersFunctionsEqual (ls:list<int>) =
+let ``Check based on filter and fold counting even numbers functions equality`` () =
+    let areFilterAndFoldCountingEvenNumbersFunctionsEqual (ls : list<int>) =
         CountEvenNumbersWithFilter ls = CountEvenNumbersWithFold ls
+
     Check.QuickThrowOnFailure areFilterAndFoldCountingEvenNumbersFunctionsEqual

@@ -3,12 +3,12 @@ open System
 
 module CountEvenNumbers =
     let CountEvenNumbersWithMap ls =
+
         ls
         |> Seq.map (fun element ->
-            if element % 2 = 0 then [element]
-            else [])
-        |> Seq.concat
-        |> Seq.length
+            if element % 2 = 0 then 1
+            else 0)
+        |> Seq.sum
 
     let CountEvenNumbersWithFilter ls =
         ls
