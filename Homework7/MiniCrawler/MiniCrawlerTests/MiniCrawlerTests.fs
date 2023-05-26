@@ -19,5 +19,5 @@ let StandartTest () =
 
 [<Test>]
 let TestWithIncorrectUrl () =
-    (fun () -> getWebPagesInfo "https://se.ma.su.ru/" |> ignore)
+    (fun () -> getWebPagesInfo "https://se.ma.su.ru/" |> Async.RunSynchronously |> ignore)
     |> should throw typeof<ArgumentException>
