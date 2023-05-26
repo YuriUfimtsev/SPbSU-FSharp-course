@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[altpo, epsilon]{backnaur}
+
+\title{Grammar}
+
+\begin{document}
+\section{Grammar}
+$
+\langle program \rangle \;::= \; \{let \; \langle variable \rangle \; = \; \langle term  \rangle \; \bnfts{\textbackslash n} \} | \; \langle term \rangle 
+ \bnfts{\textbackslash n}\\
+ \langle term \rangle \; ::= \; \langle term' \rangle \; | \; \langle abstraction \rangle \; | \; \langle application \rangle \\
+  \langle term' \rangle \; ::= \; \langle variable \rangle \; | \; (\langle term \rangle) \; \\
+ \langle abstraction \rangle \; ::= \; \lambda \langle variable \rangle \;\; \{\langle variable \rangle\} \;.\langle term \rangle \\
+ \langle application \rangle \; ::= \; \langle term' \rangle \;\; \langle term' \rangle \; | \langle term' \rangle \langle application \rangle\\
+ \langle variable \rangle \; ::= \; \langle letter \rangle \;\; \{\langle letter \rangle \; | \langle digit \rangle\} \\
+  \langle digit \rangle \;::=\; 0  \;|\; ... \;|\; 9 \\
+  \langle letter \rangle \;::=\; a \;|\; b \;|\; ... \;|\; z \;|\; A \;|\; B \;|\; ... \;|\; Z \\
+$
+
+\section{Example}
+
+$
+$
+
+\end{document}
