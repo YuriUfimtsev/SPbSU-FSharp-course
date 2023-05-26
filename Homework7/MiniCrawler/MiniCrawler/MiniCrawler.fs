@@ -6,10 +6,11 @@ open System.Net.Http
 
 let getWebPagesInfo (url : string) =
     try
-        let mainWebPage = HtmlDocument.Load(url)
+        let mainWebPage = HtmlDocument.AsyncLoad(url)
+        let parsingResul = mainWebPage |> Async.RunSynchronously
 
         let links =
-            mainWebPage.Descendants [ "a" ]
+            parsingResul.Descendants [ "a" ]
             |> Seq.choose (fun x -> x.TryGetAttribute("href") |> Option.map (fun attribute -> attribute.Value()))
 
         let client = new HttpClient()
