@@ -27,19 +27,24 @@ module Computer =
                 if isInfected then
                     this.IsInfected <- true
 
-        /// returns true if all connected computers are infected (except those that have a probability of infection = 0).
+        /// returns true if all connected computers are infected (except those that have a probability of infection = 0 or unreachable).
         /// Otherwise false
-        member this.SpreadVirus () =
+        member _.SpreadVirus () =
             if List.length connectedComputers = 0 then
                 true
             else
-                let mutable result = true
-
                 List.iter
                     (fun (computer : Computer) ->
-                        (if not (computer.IsInfected) && not (computer.InfectionProbability.Equals(0)) then
-                             result <- false
+                        (if not computer.IsInfected && not (computer.InfectionProbability.Equals(0)) then
                              computer.ResistVirus()))
                     connectedComputers
 
-                result
+                List.forall
+                    (fun (computer : Computer) -> (computer.IsInfected || computer.InfectionProbability.Equals(0)))
+                    connectedComputers
+
+        member this.IsAllConnectedComputersInfected () =
+            List.forall
+                (fun (connectedComputer : Computer) ->
+                    connectedComputer.IsInfected || connectedComputer.InfectionProbability.Equals(0))
+                this.ConnectedComputers
