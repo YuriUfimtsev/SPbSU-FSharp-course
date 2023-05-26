@@ -8,7 +8,9 @@ open MiniCrawler
 [<Test>]
 let StandartTest () =
     getWebPagesInfo "https://my.spbu.ru/"
-    |> Async.RunSynchronously
+    |> (Async.RunSynchronously)
+    |> Option.get
+    |> (Async.RunSynchronously)
     |> Seq.filter (fun linkInfo -> linkInfo <> None)
     |> Seq.map (fun linkInfo -> linkInfo.Value)
 
