@@ -1,0 +1,15 @@
+﻿1 Windows
+2 Linux
+3 Windows
+4 Linux
+5 Windows
+6 Linux
+
+0 1 1 0 1 0
+1 0 0 0 0 0
+1 0 0 1 0 0
+0 0 1 0 0 0
+1 0 0 0 0 1
+1 0 0 0 0 0
+
+1
