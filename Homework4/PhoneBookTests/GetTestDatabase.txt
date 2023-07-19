@@ -1,0 +1,3 @@
+﻿Anton +100
+Ivan +200
+Sergey +300
