@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[russian]{babel}
+\DeclareUnicodeCharacter{03BB}{$\lambda$}
+
+\begin{document}
+\section{Нормализация}
+((λa.(λb.b b) (λb.b b)) b) ((λc.(c b)) (λa.a)) $\rightarrow_\beta$
+
+((λb.b b) (λb.b b)) ((λc.(c b)) (λa.a)) $\rightarrow_\beta$
+
+((λb.b b) (λb.b b)) ((λa.a) b) -> $\rightarrow_\beta$
+
+((λb.b b) (λb.b b)) b
+
+\section{S K K}
+S K K =
+
+(λx y z.x z (y z)) (λx y.x) (λx y.x) $\rightarrow_\beta$
+
+(λy z.(λx y.x) z (y z)) (λx y.x) $\rightarrow_\beta$
+
+λz.(λx y.x) z ((λx y.x) z) $\rightarrow_\beta$
+
+λz.z = I
+
+\end{document}
